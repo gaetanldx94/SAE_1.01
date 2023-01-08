@@ -4,6 +4,11 @@ public class Salle {
 
     public Salle(String salle)
     {
+        populateSalle(salle);
+    }
+
+    public void populateSalle(String salle)
+    {
         int[] tab = new int[salle.length()];
         String st = "";
 

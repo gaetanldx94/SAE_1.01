@@ -7,6 +7,11 @@ public class Etudiant {
 
     public Etudiant(String etd)
     {
+        populateEtudiant(etd);
+    }
+
+    public void populateEtudiant(String etd)
+    {
         int[] tab = new int[etd.length()];
         String st = "";
 
@@ -23,7 +28,7 @@ public class Etudiant {
             st = st + (char)tab[i];
         }
         String[] stTab = st.split(":");
-    
+
         this.nom = stTab[0];
         this.prenom = stTab[1];
         this.groupe = stTab[2];
