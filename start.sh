@@ -1,4 +1,3 @@
-javac Etudiant.java
-javac Salle.java
-javac Main.java
+javac -d bin Etudiant.java Salle.java Main.java
+cd bin
 java Main
