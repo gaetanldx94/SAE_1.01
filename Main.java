@@ -7,6 +7,7 @@ public class Main
 {
     static int nbEtudiantGroupe;
     static int numEquipe = 1;
+    static GenerationPagesListEtud gen;
     public static void main(String[] args) throws IOException
     {
 
@@ -15,6 +16,7 @@ public class Main
         ArrayList<Etudiant> listEtud = new ArrayList<Etudiant>();
         ArrayList<Salle> listSalle = new ArrayList<Salle>();
         int cptCategorie;
+        String repDest = "provisoire";
 
         sc = new Scanner(new FileInputStream("lib/promotion.data"));
         while(sc.hasNextLine())
