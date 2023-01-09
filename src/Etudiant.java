@@ -4,6 +4,7 @@ public class Etudiant {
     private String prenom;
     private String groupe;
     private String categorie;
+    private int equipe;
 
     public Etudiant(String etd)
     {
@@ -12,6 +13,7 @@ public class Etudiant {
 
     public void populateEtudiant(String etd)
     {
+        //Décomposeur optimiser
         int[] tab = new int[etd.length()];
         String st = "";
 
@@ -35,6 +37,11 @@ public class Etudiant {
         this.categorie = stTab[3];
     }
 
+    public void ajouterEquipe(int equipe)
+    {
+        this.equipe = equipe;
+    }
+
     public String getNom() 
     {
         return nom;
@@ -53,5 +60,10 @@ public class Etudiant {
     public String getCategorie() 
     {
         return categorie;
+    }
+
+    public int getEquipe()
+    {
+        return equipe;
     }
 }

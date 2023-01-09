@@ -15,6 +15,7 @@ public class Jury
 
     public void populateJury(String jury)
     {
+        //Décomposeur optimiser
         int[] tab = new int[jury.length()];
         String st = "";
 
@@ -32,6 +33,7 @@ public class Jury
         }
         String[] stTab = st.split(",");
 
+        //Affectation
         this.horaires = new ArrayList<String>();
         this.prof = new ArrayList<String>();
 

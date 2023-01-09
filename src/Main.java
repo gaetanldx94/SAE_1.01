@@ -1,6 +1,6 @@
 import java.util.*;
 import java.io.*;
-import java.text.SimpleDateFormat;
+import java.text.*;
 
 public class Main
 {
@@ -108,6 +108,7 @@ public class Main
                 equipeEtud[i][j] =  String.format("%-13s", listEtudiant.get(cptEtudiant).getNom())  + " " + 
                                     String.format("%-9s", listEtudiant.get(cptEtudiant).getPrenom()) + " " + 
                                     listEtudiant.get(cptEtudiant).getGroupe() + "\n";
+                listEtudiant.get(cptEtudiant).ajouterEquipe(cptEquipe);
                 cptEtudiant++;
             }
             cptEquipe++;
@@ -119,6 +120,7 @@ public class Main
                 equipeEtud[cptEquipe-1][nbrEtudiantGp] =    String.format("%-13s",    listEtudiant.get(i).getNom())  + " " + 
                                                             String.format("%-9s", listEtudiant.get(i).getPrenom()) + " " + 
                                                             listEtudiant.get(i).getGroupe() + "\n";
+                listEtudiant.get(cptEtudiant).ajouterEquipe(cptEquipe);
                 cptEquipe--;
             }
         return equipeEtud;
@@ -179,7 +181,6 @@ public class Main
                     horaires[l] = listJury.get(i).getHoraires().get(j).split(":");
                     System.out.println(horaires[l][j]);
                 }
-            
         }
     }
 }
