@@ -5,17 +5,15 @@ import java.text.*;
 public class Main
 {
     // Variable
-    static Scanner              sc;
-    static int                  nbrEtudiantGp;
-    static String               tempsExam;
+    private static Scanner              sc;
+    private static int                  nbrEtudiantGp;
+    private static String               tempsExam;
 
-    static ArrayList<Etudiant>  listEtudiant;
-    static ArrayList<Salle>     listSalle;
-    static ArrayList<Jury>      listJury;
+    private static ArrayList<Etudiant>  listEtudiant;
+    private static ArrayList<Salle>     listSalle;
+    private static ArrayList<Jury>      listJury;
 
-    static ArrayList<Etudiant>  listFinale;
-
-    static String[][] equipeEtudiant;
+    private static String[][] equipeEtudiant;
 
     public static void main(String[] args) throws IOException, Exception
     {
@@ -23,7 +21,6 @@ public class Main
         listEtudiant    = new ArrayList<Etudiant>();
         listSalle       = new ArrayList<Salle>();
         listJury        = new ArrayList<Jury>();
-        listFinale      = new ArrayList<Etudiant>();
 
         //Lecture du fichier ressources.data
         sc = new Scanner(new FileInputStream("../lib/ressources.data"));
@@ -45,7 +42,7 @@ public class Main
         while(sc.hasNextLine())
             listJury.add(new Jury(sc.nextLine()));
 
-        affichageConsole2();
+        affichageConsole1();
     }
 
     //Récupération de l'ensemble des catégories utiliser
@@ -153,7 +150,8 @@ public class Main
     {
         Date date;
         SimpleDateFormat format;
-        String[][] horaires;
+        int cptEquipe = 1;
+        //String[][] horaires;
 
         for(int i = 0; i < listJury.size(); i++)
         {
@@ -173,14 +171,12 @@ public class Main
             System.out.println(listJury.get(i).getJuryId());
             for(int m = 0; m < listJury.get(i).getProf().size(); m++)
                 System.out.println(listJury.get(i).getProf().get(m));
+            System.out.println(tempsExam);
 
-            horaires = new String[listJury.get(i).getHoraires().size()][2];
-            for(int l = 0; l < listJury.get(i).getHoraires().size(); l++)
-                for(int j = 0; j < 2; j++)
-                {
-                    horaires[l] = listJury.get(i).getHoraires().get(j).split(":");
-                    System.out.println(horaires[l][j]);
-                }
+            //Séparer heure et minute dans un tableau deux dimension
+            /*horaires = new String[listJury.get(i).getHoraires().size()][2];
+              for(int l = 0; l < listJury.get(i).getHoraires().size(); l++)
+                horaires[l] = listJury.get(i).getHoraires().get(l).split(":");*/
         }
     }
 }

@@ -13,23 +13,7 @@ public class Etudiant {
 
     public void populateEtudiant(String etd)
     {
-        //Décomposeur optimiser
-        int[] tab = new int[etd.length()];
-        String st = "";
-
-        for(int i = 0; i < etd.length(); i++)
-        {
-            if((int)((char)etd.charAt(i)) != 9)
-                tab[i] = (int)((char)etd.charAt(i));
-            else
-                tab[i] = (int)':';
-        }
-
-        for(int i = 0; i < tab.length; i++)
-        {
-            st = st + (char)tab[i];
-        }
-        String[] stTab = st.split(":");
+        String[] stTab = new Outils().decomposeur(etd, 9, ":");
 
         this.nom = stTab[0];
         this.prenom = stTab[1];

@@ -15,23 +15,7 @@ public class Jury
 
     public void populateJury(String jury)
     {
-        //Décomposeur optimiser
-        int[] tab = new int[jury.length()];
-        String st = "";
-
-        for(int i = 0; i < jury.length(); i++)
-        {
-            if((int)((char)jury.charAt(i)) != 9)
-                tab[i] = (int)((char)jury.charAt(i));
-            else
-                tab[i] = (int)',';
-        }
-
-        for(int i = 0; i < tab.length; i++)
-        {
-            st = st + (char)tab[i];
-        }
-        String[] stTab = st.split(",");
+        String[] stTab = new Outils().decomposeur(jury, 9, ",");
 
         //Affectation
         this.horaires = new ArrayList<String>();
