@@ -35,19 +35,23 @@ public class Etudiant {
         this.categorie = stTab[3];
     }
 
-    public String getNom() {
+    public String getNom() 
+    {
         return nom;
     }
 
-    public String getPrenom() {
+    public String getPrenom() 
+    {
         return prenom;
     }
 
-    public String getGroupe() {
+    public String getGroupe() 
+    {
         return groupe;
     }
 
-    public String getCategorie() {
+    public String getCategorie() 
+    {
         return categorie;
     }
 }

@@ -51,18 +51,22 @@ public class Jury
     {
         return juryId;
     }
+
     public String getSalle() 
     {
         return salle;
     }
+
     public String getDate() 
     {
         return date;
     }
+
     public ArrayList<String> getHoraires() 
     {
         return horaires;
     }
+    
     public ArrayList<String> getProf() 
     {
         return prof;

@@ -116,9 +116,9 @@ public class Main
         if(cptEtudiant < listEtudiant.size())
             for(int i = listEtudiant.size()-1; i >= cptEtudiant; i--)
             {
-                equipeEtud[cptEquipe-1][nbrEtudiantGp] =  String.format("%-13s",    listEtudiant.get(i).getNom())  + " " + 
-                                                                                    String.format("%-9s", listEtudiant.get(i).getPrenom()) + " " + 
-                                                                                    listEtudiant.get(i).getGroupe() + "\n";
+                equipeEtud[cptEquipe-1][nbrEtudiantGp] =    String.format("%-13s",    listEtudiant.get(i).getNom())  + " " + 
+                                                            String.format("%-9s", listEtudiant.get(i).getPrenom()) + " " + 
+                                                            listEtudiant.get(i).getGroupe() + "\n";
                 cptEquipe--;
             }
         return equipeEtud;
@@ -140,10 +140,8 @@ public class Main
                 System.out.println();
                 System.out.println("Equipe " + numEquipe);
                 for(int j = 0; j < nbrEtudiantGp+1; j++)
-                {
                     if(equipeEtudiant[k][j] != null)
                         System.out.print(equipeEtudiant[k][j]);
-                }
             }
         }
     }
@@ -153,21 +151,35 @@ public class Main
     {
         Date date;
         SimpleDateFormat format;
+        String[][] horaires;
+
         for(int i = 0; i < listJury.size(); i++)
         {
             format = new SimpleDateFormat("EEEE d MMMMMMMMMM yyyy");
             date = new SimpleDateFormat("dd/MM/yyyy").parse(listJury.get(i).getDate());
+
             for(int j =0; j < format.format(date).length(); j++)
                 System.out.print("-");
             System.out.println("");
             System.out.println(format.format(date));
             for(int j =0; j < format.format(date).length(); j++)
                 System.out.print("-");
+
             System.out.println("");
             System.out.println("");
+
             System.out.println(listJury.get(i).getJuryId());
             for(int m = 0; m < listJury.get(i).getProf().size(); m++)
                 System.out.println(listJury.get(i).getProf().get(m));
+
+            horaires = new String[listJury.get(i).getHoraires().size()][2];
+            for(int l = 0; l < listJury.get(i).getHoraires().size(); l++)
+                for(int j = 0; j < 2; j++)
+                {
+                    horaires[l] = listJury.get(i).getHoraires().get(j).split(":");
+                    System.out.println(horaires[l][j]);
+                }
+            
         }
     }
 }

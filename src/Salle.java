@@ -34,6 +34,7 @@ public class Salle {
     {
         return numero;
     }
+    
     public String getNbEquipe() 
     {
         return nbEquipe;
