@@ -19,7 +19,7 @@ public class Generation
         //head
         pw.println("\t<head> \n" + 
                        "\t\t<meta charset=\"UTF-8\">");
-        pw.println ( "\t\t<link rel=\"stylesheet\" href=\"styles/Style.css\" />" );
+        pw.println ( "\t\t<link rel=\"stylesheet\" href=\"../style/Style.css\" />" );
         pw.println ("\t\t<title> Liste Etudiant </title>\n" +
                         "\t</head>"                              );
 
