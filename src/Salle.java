@@ -9,6 +9,7 @@ public class Salle {
 
     public void populateSalle(String salle)
     {
+        //Décomposeur optimiser
         int[] tab = new int[salle.length()];
         String st = "";
 
@@ -34,6 +35,7 @@ public class Salle {
     {
         return numero;
     }
+    
     public String getNbEquipe() 
     {
         return nbEquipe;

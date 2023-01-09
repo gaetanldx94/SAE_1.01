@@ -1,24 +1,29 @@
 import java.util.*;
 import java.io.*;
+import java.text.*;
 
 public class Main
 {
     // Variable
     static Scanner              sc;
     static int                  nbrEtudiantGp;
+    static String               tempsExam;
 
-    static ArrayList<Etudiant>  listEtudiant;
+    private static ArrayList<Etudiant>  listEtudiant;
+    private static ArrayList<Salle>     listSalle;
+    static ArrayList<Jury>      listJury;
+
     static ArrayList<Etudiant>  listFinale;
-    static ArrayList<Salle>     listSalle;
 
-    static String[][] equipeEtudiant;
+    private static String[][] equipeEtudiant;
 
-    public static void main(String[] args) throws IOException
+    public static void main(String[] args) throws IOException, Exception
     {
         //Inistialisation
-        listEtudiant = new ArrayList<Etudiant>();
-        listSalle = new ArrayList<Salle>();
-        listFinale = new ArrayList<Etudiant>();
+        listEtudiant    = new ArrayList<Etudiant>();
+        listSalle       = new ArrayList<Salle>();
+        listJury        = new ArrayList<Jury>();
+        listFinale      = new ArrayList<Etudiant>();
 
         //Lecture du fichier ressources.data
         sc = new Scanner(new FileInputStream("../lib/ressources.data"));
@@ -32,27 +37,15 @@ public class Main
         sc = new Scanner(new FileInputStream("../lib/promotion.data"));
         while(sc.hasNextLine())
             listEtudiant.add(new Etudiant(sc.nextLine()));
-        
-        //Affectation
-        int numEquipe = 0;
-        for(int i = 0; i < nbCategorie(listEtudiant).size(); i++)
-        {
-            ArrayList<Etudiant> categoriTrier = triAlphabetique(isolerCategorie(nbCategorie(listEtudiant).get(i), listEtudiant));
-            equipeEtudiant = creerEquipe(nbrEtudiantGp, categoriTrier);
 
-            //Affichage
-            for(int k = 0; k < equipeEtudiant.length; k++)
-            {
-                numEquipe++;
-                System.out.println();
-                System.out.println("Equipe " + numEquipe);
-                for(int j = 0; j < nbrEtudiantGp+1; j++)
-                {
-                    if(equipeEtudiant[k][j] != null)
-                        System.out.print(equipeEtudiant[k][j]);
-                }
-            }
-        }
+        //Lecture du fichier jury.data
+        sc = new Scanner(new FileInputStream("../lib/jury.data"));
+        tempsExam = sc.nextLine();
+
+        while(sc.hasNextLine())
+            listJury.add(new Jury(sc.nextLine()));
+
+        affichageConsole2();
     }
 
     //Récupération de l'ensemble des catégories utiliser
@@ -115,6 +108,7 @@ public class Main
                 equipeEtud[i][j] =  String.format("%-13s", listEtudiant.get(cptEtudiant).getNom())  + " " + 
                                     String.format("%-9s", listEtudiant.get(cptEtudiant).getPrenom()) + " " + 
                                     listEtudiant.get(cptEtudiant).getGroupe() + "\n";
+                listEtudiant.get(cptEtudiant).ajouterEquipe(cptEquipe);
                 cptEtudiant++;
             }
             cptEquipe++;
@@ -123,11 +117,70 @@ public class Main
         if(cptEtudiant < listEtudiant.size())
             for(int i = listEtudiant.size()-1; i >= cptEtudiant; i--)
             {
-                equipeEtud[cptEquipe-1][nbrEtudiantGp] =  String.format("%-13s",    listEtudiant.get(i).getNom())  + " " + 
-                                                                                    String.format("%-9s", listEtudiant.get(i).getPrenom()) + " " + 
-                                                                                    listEtudiant.get(i).getGroupe() + "\n";
+                equipeEtud[cptEquipe-1][nbrEtudiantGp] =    String.format("%-13s",    listEtudiant.get(i).getNom())  + " " + 
+                                                            String.format("%-9s", listEtudiant.get(i).getPrenom()) + " " + 
+                                                            listEtudiant.get(i).getGroupe() + "\n";
+                listEtudiant.get(cptEtudiant).ajouterEquipe(cptEquipe);
                 cptEquipe--;
             }
         return equipeEtud;
+    }
+
+    //Affiche les équipes avec les étudiants
+    public static void affichageConsole1()
+    {
+        int numEquipe = 0;
+        for(int i = 0; i < nbCategorie(listEtudiant).size(); i++)
+        {
+            ArrayList<Etudiant> categoriTrier = triAlphabetique(isolerCategorie(nbCategorie(listEtudiant).get(i), listEtudiant));
+            equipeEtudiant = creerEquipe(nbrEtudiantGp, categoriTrier);
+
+            //Affichage
+            for(int k = 0; k < equipeEtudiant.length; k++)
+            {
+                numEquipe++;
+                System.out.println();
+                System.out.println("Equipe " + numEquipe);
+                for(int j = 0; j < nbrEtudiantGp+1; j++)
+                    if(equipeEtudiant[k][j] != null)
+                        System.out.print(equipeEtudiant[k][j]);
+            }
+        }
+    }
+
+    //Affiche les jurys et les équipes attribuer avec leurs horaires
+    public static void affichageConsole2() throws Exception
+    {
+        Date date;
+        SimpleDateFormat format;
+        String[][] horaires;
+
+        for(int i = 0; i < listJury.size(); i++)
+        {
+            format = new SimpleDateFormat("EEEE d MMMMMMMMMM yyyy");
+            date = new SimpleDateFormat("dd/MM/yyyy").parse(listJury.get(i).getDate());
+
+            for(int j =0; j < format.format(date).length(); j++)
+                System.out.print("-");
+            System.out.println("");
+            System.out.println(format.format(date));
+            for(int j =0; j < format.format(date).length(); j++)
+                System.out.print("-");
+
+            System.out.println("");
+            System.out.println("");
+
+            System.out.println(listJury.get(i).getJuryId());
+            for(int m = 0; m < listJury.get(i).getProf().size(); m++)
+                System.out.println(listJury.get(i).getProf().get(m));
+
+            horaires = new String[listJury.get(i).getHoraires().size()][2];
+            for(int l = 0; l < listJury.get(i).getHoraires().size(); l++)
+                for(int j = 0; j < 2; j++)
+                {
+                    horaires[l] = listJury.get(i).getHoraires().get(j).split(":");
+                    System.out.println(horaires[l][j]);
+                }
+        }
     }
 }
