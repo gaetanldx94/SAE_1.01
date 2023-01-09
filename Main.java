@@ -1,24 +1,30 @@
 import java.util.*;
+import java.util.logging.SimpleFormatter;
 import java.io.*;
+import java.text.SimpleDateFormat;
 
 public class Main
 {
     // Variable
     static Scanner              sc;
     static int                  nbrEtudiantGp;
+    static String               tempsExam;
 
     static ArrayList<Etudiant>  listEtudiant;
-    static ArrayList<Etudiant>  listFinale;
     static ArrayList<Salle>     listSalle;
+    static ArrayList<Jury>      listJury;
+
+    static ArrayList<Etudiant>  listFinale;
 
     static String[][] equipeEtudiant;
 
     public static void main(String[] args) throws IOException
     {
         //Inistialisation
-        listEtudiant = new ArrayList<Etudiant>();
-        listSalle = new ArrayList<Salle>();
-        listFinale = new ArrayList<Etudiant>();
+        listEtudiant    = new ArrayList<Etudiant>();
+        listSalle       = new ArrayList<Salle>();
+        listJury        = new ArrayList<Jury>();
+        listFinale      = new ArrayList<Etudiant>();
 
         //Lecture du fichier ressources.data
         sc = new Scanner(new FileInputStream("../lib/ressources.data"));
@@ -32,27 +38,15 @@ public class Main
         sc = new Scanner(new FileInputStream("../lib/promotion.data"));
         while(sc.hasNextLine())
             listEtudiant.add(new Etudiant(sc.nextLine()));
-        
-        //Affectation
-        int numEquipe = 0;
-        for(int i = 0; i < nbCategorie(listEtudiant).size(); i++)
-        {
-            ArrayList<Etudiant> categoriTrier = triAlphabetique(isolerCategorie(nbCategorie(listEtudiant).get(i), listEtudiant));
-            equipeEtudiant = creerEquipe(nbrEtudiantGp, categoriTrier);
 
-            //Affichage
-            for(int k = 0; k < equipeEtudiant.length; k++)
-            {
-                numEquipe++;
-                System.out.println();
-                System.out.println("Equipe " + numEquipe);
-                for(int j = 0; j < nbrEtudiantGp+1; j++)
-                {
-                    if(equipeEtudiant[k][j] != null)
-                        System.out.print(equipeEtudiant[k][j]);
-                }
-            }
-        }
+        //Lecture du fichier jury.data
+        sc = new Scanner(new FileInputStream("../lib/jury.data"));
+        tempsExam = sc.nextLine();
+
+        while(sc.hasNextLine())
+            listJury.add(new Jury(sc.nextLine()));
+
+        affichageConsole1();
     }
 
     //Récupération de l'ensemble des catégories utiliser
@@ -129,5 +123,39 @@ public class Main
                 cptEquipe--;
             }
         return equipeEtud;
+    }
+
+    //Affiche les équipes avec les étudiants
+    public static void affichageConsole1()
+    {
+        int numEquipe = 0;
+        for(int i = 0; i < nbCategorie(listEtudiant).size(); i++)
+        {
+            ArrayList<Etudiant> categoriTrier = triAlphabetique(isolerCategorie(nbCategorie(listEtudiant).get(i), listEtudiant));
+            equipeEtudiant = creerEquipe(nbrEtudiantGp, categoriTrier);
+
+            //Affichage
+            for(int k = 0; k < equipeEtudiant.length; k++)
+            {
+                numEquipe++;
+                System.out.println();
+                System.out.println("Equipe " + numEquipe);
+                for(int j = 0; j < nbrEtudiantGp+1; j++)
+                {
+                    if(equipeEtudiant[k][j] != null)
+                        System.out.print(equipeEtudiant[k][j]);
+                }
+            }
+        }
+    }
+
+    //Affiche les jurys et les équipes attribuer avec leurs horaires
+    public static void affichageConsole2()
+    {
+        for(int i = 0; i < listJury.size(); i++)
+        {
+            Date date = new SimpleDateFormat("dd/MM/yyyy").parse(listJury.get())
+    
+        }
     }
 }
