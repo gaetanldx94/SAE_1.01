@@ -43,7 +43,7 @@ public class Main
 
         while(sc.hasNextLine())
             listJury.add(new Jury(sc.nextLine()));
-        affichageConsole1();
+        creationEquipeTrier();
         System.out.print("\033[H\033[2J");  
         System.out.flush();  
 
@@ -61,9 +61,9 @@ public class Main
             sc = new Scanner(System.in);
             int choix = sc.nextInt();
 
-            if(choix == 1) affichageConsole1();
-            if(choix == 2) affichageConsole2();
-            if(choix == 3) ;//new Generation("vue", listEtudiant, equipeEtudiant, nbrEtudiantGp, listSalle, listJury);
+            if(choix == 1) creationEquipeTrier();
+            if(choix == 2) affichageConsole();
+            if(choix == 3) new Generation("vue", listEtudiant, equipeEtudiant, nbrEtudiantGp, listSalle, listJury);
             if(choix == 4) System.exit(0);
         }
     }
@@ -125,10 +125,7 @@ public class Main
         {
             for(int j = 0; j < nbrEtudiantGp; j++)
             {
-                equipeEtud[i][j] =  String.format("%-13s", listEtudiant.get(cptEtudiant).getNom())  + " " + 
-                                    String.format("%-9s", listEtudiant.get(cptEtudiant).getPrenom()) + " " + 
-                                    listEtudiant.get(cptEtudiant).getGroupe() + "\n";
-                listEtudiant.get(cptEtudiant).ajouterEquipe(cptEquipe);
+                equipeEtud[i][j] = listEtudiant.get(cptEtudiant).getNom() + String.valueOf((char)((int)9)) + listEtudiant.get(cptEtudiant).getPrenom();
                 cptEtudiant++;
             }
             cptEquipe++;
@@ -137,39 +134,51 @@ public class Main
         if(cptEtudiant < listEtudiant.size())
             for(int i = listEtudiant.size()-1; i >= cptEtudiant; i--)
             {
-                equipeEtud[cptEquipe-1][nbrEtudiantGp] =    String.format("%-13s",    listEtudiant.get(i).getNom())  + " " + 
-                                                            String.format("%-9s", listEtudiant.get(i).getPrenom()) + " " + 
-                                                            listEtudiant.get(i).getGroupe() + "\n";
-                listEtudiant.get(cptEtudiant).ajouterEquipe(cptEquipe);
+                equipeEtud[cptEquipe-1][nbrEtudiantGp] =   listEtudiant.get(cptEtudiant).getNom() + String.valueOf((char)((int)9)) + listEtudiant.get(cptEtudiant).getPrenom();
                 cptEquipe--;
             }
         return equipeEtud;
     }
 
     //Affiche les équipes avec les étudiants
-    public static void affichageConsole1()
+    public static void creationEquipeTrier()
     {
-        int numEquipe = 0;
+        int numEquipe = 1;
+
         for(int i = 0; i < nbCategorie(listEtudiant).size(); i++)
         {
             ArrayList<Etudiant> categoriTrier = triAlphabetique(isolerCategorie(nbCategorie(listEtudiant).get(i), listEtudiant));
             equipeEtudiant = creerEquipe(nbrEtudiantGp, categoriTrier);
 
-            //Affichage
+            //Affichage/Affectation des équipes
             for(int k = 0; k < equipeEtudiant.length; k++)
             {
-                numEquipe++;
                 System.out.println();
                 System.out.println("Equipe " + numEquipe);
                 for(int j = 0; j < nbrEtudiantGp+1; j++)
-                    if(equipeEtudiant[k][j] != null)
-                        System.out.print(equipeEtudiant[k][j]);
+                {
+                    for(int o = 1; o < listEtudiant.size(); o++)
+                    {
+                        if( listEtudiant.get(o).getNom().equals(outils.decomposeur(equipeEtudiant[k][j], 9)[0]) &&
+                            listEtudiant.get(o).getPrenom().equals(outils.decomposeur(equipeEtudiant[k][j], 9)[1]) &&
+                            equipeEtudiant[k][j] != null)
+                        {
+                            listEtudiant.get(o).ajouterEquipe(numEquipe);
+
+                            System.out.print(   String.format("%-13s", listEtudiant.get(o).getNom())  + " " + 
+                                                String.format("%-9s", listEtudiant.get(o).getPrenom()) + " " + 
+                                                listEtudiant.get(o).getGroupe() + "\n");
+                            break;
+                        }
+                    }
+                }
+                numEquipe++;
             }
         }
     }
 
     //Affiche les jurys et les équipes attribuer avec leurs horaires
-    public static void affichageConsole2() throws Exception
+    public static void affichageConsole() throws Exception
     {
         SimpleDateFormat format;
         int cptEquipe = 0;

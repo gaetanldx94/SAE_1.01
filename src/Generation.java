@@ -1,42 +1,53 @@
 import java.io.PrintWriter;
+import java.io.BufferedWriter;
 import java.io.File;
-
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+
 
 public class Generation
 {
     public Generation(String repertoire, ArrayList<Etudiant> listEtud, String[][] equipeEtudiant, int nbrEtudiantGp, ArrayList<Salle> listSalle, ArrayList<Jury> listJuries)
     {
-        genererListeEtudiant(repertoire, listEtud);
-        genererListeEquipe(repertoire, equipeEtudiant, nbrEtudiantGp, listSalle);
-        genererListeHorraires(repertoire, listJuries);
+        try
+        {
+            genererListeEtudiant(repertoire, listEtud);
+            //genererListeEquipe(repertoire, equipeEtudiant, nbrEtudiantGp, listSalle);
+            //genererListeHorraires(repertoire, listJuries);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
-    public static void genererListeEtudiant(String repertoire, ArrayList<Etudiant> listEtud)
+    public static void genererListeEtudiant(String repertoire, ArrayList<Etudiant> listEtud) throws IOException
     {
-        PrintWriter pw = null;
-
-        try{pw = new PrintWriter(new File("../" + repertoire + "/listeEtudiant.html"), "utf-8"); }
-        catch (Exception e){e.printStackTrace();}
-
+        File file = new File("../src/" + repertoire + "listeEtudiant.html");
+        if(!file.exists())
+            file.createNewFile();
+        FileWriter fw = new FileWriter(file.getAbsolutePath());
+        BufferedWriter bw = new BufferedWriter(fw);
+        
         //HTML
-        pw.println("<!DOCTYPE html> \n" + 
-                       "<html lang=\"fr\">"  );
+        bw.write("<!DOCTYPE html> \n" + 
+                       "<html lang=\"fr\">\n"  );
 
         //head
-        pw.println("\t<head> \n" + 
-                       "\t\t<meta charset=\"UTF-8\">");
-        pw.println ( "\t\t<link rel=\"stylesheet\" href=\"styles/Style.css\" />" );
-        pw.println ("\t\t<title> Liste Etudiant </title>\n" +
+        bw.write("\t<head> \n" + 
+                       "\t\t<meta charset=\"UTF-8\">\n");
+        bw.write ( "\t\t<link rel=\"stylesheet\" href=\"style/Style_ListEtudiant.css\" />\n" );
+        bw.write ("\t\t<title> Liste Etudiant </title>\n" +
                         "\t</head>"                              );
 
         //body
-        pw.println ( "\t<body>" );
+        bw.write ( "\t<body>" );
 
         //titre
-        pw.println ( "\t\t<h1> Liste des Etudiants </h1>" );
+        bw.write ( "\t\t<h1> Liste des Etudiants </h1>\n" );
 
-        pw.println("\t\t<table>\n" +
+        bw.write("\t\t<table>\n" +
                     "\t\t\t<thead>\n\n" +
                     "\t\t\t\t<tr>\n"    +
                     "\t\t\t\t\t<th>Nom</th>\n" +
@@ -47,27 +58,29 @@ public class Generation
                     "\t\t\t</thead>\n\n" +
                     "\t\t\t<tbody>\n");
 
-        for(int i = 0; i < listEtud.size(); i++)
+        for(int i = 1; i < listEtud.size(); i++)
         {
-            pw.println("\t\t\t\t<tr>\n" +
-                       "\t\t\t\t\t<t>" + String.format("%13s",listEtud.get(i).getNom()) + "</tr>\n" +
-                       "\t\t\t\t\t<t>" + String.format("%9s", listEtud.get(i).getPrenom()) + "</tr>\n" +
-                       "\t\t\t\t\t<t>" + listEtud.get(i).getGroupe() + "</tr>\n" +
-                       "\t\t\t\t\t<t>" + listEtud.get(i).getEquipe());
+            bw.write("\t\t\t\t<tr>\n" +
+                       "\t\t\t\t\t<td>" + String.format("%13s",listEtud.get(i).getNom()) + "</td>\n" +
+                       "\t\t\t\t\t<td>" + String.format("%9s", listEtud.get(i).getPrenom()) + "</td>\n" +
+                       "\t\t\t\t\t<td>" + listEtud.get(i).getGroupe() + "</td>\n" +
+                       "\t\t\t\t\t<td>" + listEtud.get(i).getEquipe() + "</td>\n");
         }
 
+        bw.write("\t\t\t</tbody>\n");
+
         //espacement avec le pied de page
-        pw.println ( "\t\t<br style = \"line-height:100px;\">" );
+        bw.write ( "\t\t<br style = \"line-height:100px;\">\n" );
 
 
-        pw.println ( "\t\t<footer>" );
-        pw.println ( "\t\t</footer>" );
+        bw.write ( "\t\t<footer>\n" );
+        bw.write ( "\t\t</footer>\n" );
 
-		pw.println ( "\t</body>" );
+		bw.write ( "\t</body>\n" );
 
-		pw.println ( "</html>" );
+		bw.write ( "</html>\n" );
 
-		pw.close();
+        bw.close();
     }
 
 
@@ -151,8 +164,8 @@ public class Generation
         //head
         pw.println("\t<head> \n" + 
                     "\t\t<meta charset=\"UTF-8\">");
-        pw.println ( "\t\t<link rel=\"stylesheet\" href=\"styles/listeEquipe.css\" />" );
-        pw.println ("\t\t<title> Liste Etudiant </title>\n" +
+        pw.println ( "\t\t<link rel=\"stylesheet\" href=\"styles/Style_ListHoraires.css\" />" );
+        pw.println ("\t\t<title> Jeudi 19 Janvier 2023 </title>\n" +
                     "\t</head>"                              );
 
         //body
