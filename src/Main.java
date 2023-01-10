@@ -12,6 +12,7 @@ public class Main
     private static ArrayList<Etudiant>  listEtudiant;
     private static ArrayList<Salle>     listSalle;
     private static ArrayList<Jury>      listJury;
+    private static ArrayList<String>    listCategorie;
 
     private static String[][] equipeEtudiant;
 
@@ -23,6 +24,7 @@ public class Main
         listEtudiant    = new ArrayList<Etudiant>();
         listSalle       = new ArrayList<Salle>();
         listJury        = new ArrayList<Jury>();
+        listCategorie   = new ArrayList<String>();
 
         //Lecture du fichier ressources.data
         sc = new Scanner(new FileInputStream("../lib/ressources.data"));
@@ -43,6 +45,9 @@ public class Main
 
         while(sc.hasNextLine())
             listJury.add(new Jury(sc.nextLine()));
+
+        listCategorie = nbCategorie(listEtudiant);
+
         creationEquipeTrier();
         System.out.print("\033[H\033[2J");  
         System.out.flush();  
@@ -59,12 +64,36 @@ public class Main
             System.out.print("\nChoix : ");
 
             sc = new Scanner(System.in);
-            int choix = sc.nextInt();
+            try
+            {
+                int choix = sc.nextInt();
 
-            if(choix == 1) creationEquipeTrier();
-            if(choix == 2) affichageConsole();
-            if(choix == 3) new Generation("vue", listEtudiant, equipeEtudiant, nbrEtudiantGp, listSalle, listJury);
-            if(choix == 4) System.exit(0);
+                switch(choix)
+                {
+                    case 1:
+                        creationEquipeTrier();
+                    break;
+
+                    case 2:
+                        affichageConsole();
+                    break;
+
+                    case 3:
+                        new Generation(listEtudiant, nbrEtudiantGp, listSalle, listJury, listCategorie);
+                    break;
+
+                    case 4:
+                        System.exit(0);
+                    break;
+
+                    default:
+                        continue;
+                }
+            }
+            catch(Exception e)
+            {
+                //Ignorer
+            }
         }
     }
 
