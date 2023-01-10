@@ -39,12 +39,12 @@ public class Main
 
         //Lecture du fichier jury.data
         sc = new Scanner(new FileInputStream("../lib/jury.data"));
-        tempsExam = outils.decomposeur(sc.nextLine(), 9, ":");
+        tempsExam = outils.decomposeur(sc.nextLine(), 9);
 
         while(sc.hasNextLine())
             listJury.add(new Jury(sc.nextLine()));
 
-        affichageConsole2();
+        affichageConsole1();
     }
 
     //Récupération de l'ensemble des catégories utiliser
@@ -207,28 +207,49 @@ public class Main
                 try
                 {
                     System.out.println("");
-                    System.out.print(String.format("%5s", outils.decomposeur(format.format(heureActuelle), (int)((char)':'), ":")[0] + "h"
-                                     + outils.decomposeur(format.format(heureActuelle), (int)((char)':'), ":")[1] ));
+                    System.out.print(String.format("%5s", outils.decomposeur(format.format(heureActuelle), (int)((char)':'))[0] + "h"
+                                     + outils.decomposeur(format.format(heureActuelle), (int)((char)':'))[1] ));
 
                     //Calcule de l'intervale de passage
                     cal = Calendar.getInstance();
                     cal.setTime(heureActuelle);
-                    cal.add(Calendar.MINUTE, 25);
+                    cal.add(Calendar.MINUTE, Integer.parseInt(tempsExam[0]));
                     heureActuelle = cal.getTime();
 
                     System.out.print(" à " +
-                                     String.format("%1s", outils.decomposeur(format.format(cal.getTime()), (int)((char)':'), ":")[0] + "h"
-                                     + outils.decomposeur(format.format(cal.getTime()), (int)((char)':'), ":")[1] ));
+                                     String.format("%1s", outils.decomposeur(format.format(cal.getTime()), (int)((char)':'))[0] + "h"
+                                     + outils.decomposeur(format.format(cal.getTime()), (int)((char)':'))[1] ));
                     System.out.print(String.format("%9s", " équipe " + cptEquipe));
                     System.out.print(String.format("%9s", " salle " + listJury.get(i).getSalle()));
 
                     cal = Calendar.getInstance();
                     cal.setTime(heureActuelle);
-                    cal.add(Calendar.MINUTE, 25);
-                    tmp = cal.getTime(); 
+                    cal.add(Calendar.MINUTE, Integer.parseInt(tempsExam[0]));
+                    tmp = cal.getTime();
 
-                    if(tmp.compareTo(heureFin) > 0)
+                    if(tmp.compareTo(heureFin) >= 0)
+                    {
                         bcl = false;
+                    }
+                    else
+                    {
+                        cal = Calendar.getInstance();
+                        cal.setTime(heureActuelle);
+                        cal.add(Calendar.MINUTE, Integer.parseInt(tempsExam[1]));
+                        tmp = cal.getTime();
+
+                        if(tmp.compareTo(heureFin) >= 0)
+                        {
+                            bcl = false;
+                        }
+                        else
+                        {
+                            cal = Calendar.getInstance();
+                            cal.setTime(heureActuelle);
+                            cal.add(Calendar.MINUTE, Integer.parseInt(tempsExam[1]));
+                            heureActuelle = cal.getTime();
+                        }
+                    }
                 }
                 catch(Exception e)
                 {

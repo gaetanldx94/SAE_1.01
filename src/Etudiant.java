@@ -13,7 +13,7 @@ public class Etudiant {
 
     public void populateEtudiant(String etd)
     {
-        String[] stTab = new Outils().decomposeur(etd, 9, ":");
+        String[] stTab = new Outils().decomposeur(etd, 9);
 
         this.nom = stTab[0];
         this.prenom = stTab[1];

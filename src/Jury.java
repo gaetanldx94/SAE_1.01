@@ -15,7 +15,7 @@ public class Jury
 
     public void populateJury(String jury)
     {
-        String[] stTab = new Outils().decomposeur(jury, 9, ",");
+        String[] stTab = new Outils().decomposeur(jury, 9);
 
         //Affectation
         this.horaires = new ArrayList<String>();

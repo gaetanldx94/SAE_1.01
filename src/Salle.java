@@ -9,7 +9,7 @@ public class Salle {
 
     public void populateSalle(String salle)
     {
-        String[] stTab = new Outils().decomposeur(salle, 9, ":");
+        String[] stTab = new Outils().decomposeur(salle, 9);
 
         this.numero = stTab[0];
         this.nbEquipe = stTab[1];
