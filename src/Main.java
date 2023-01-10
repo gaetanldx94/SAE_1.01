@@ -43,8 +43,29 @@ public class Main
 
         while(sc.hasNextLine())
             listJury.add(new Jury(sc.nextLine()));
-
         affichageConsole1();
+        System.out.print("\033[H\033[2J");  
+        System.out.flush();  
+
+        for(int i = 0; i > -1; i++)
+        {
+            System.out.println("\nSAE 1.01, implémentation besoin client\n");
+
+            System.out.println("1] Affichage des groupes");
+            System.out.println("2] Affichage du planning");
+            System.out.println("3] Générer les pages web");
+            System.out.println("4] Quitter");
+
+            System.out.print("\nChoix : ");
+
+            sc = new Scanner(System.in);
+            int choix = sc.nextInt();
+
+            if(choix == 1) affichageConsole1();
+            if(choix == 2) affichageConsole2();
+            if(choix == 3) ;//new Generation("vue", listEtudiant, equipeEtudiant, nbrEtudiantGp, listSalle, listJury);
+            if(choix == 4) System.exit(0);
+        }
     }
 
     //Récupération de l'ensemble des catégories utiliser
